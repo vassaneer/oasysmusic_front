@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        i {
+            background-color: whitesmoke; /* Blue background */
+            border: none; /* Remove borders */
+            border-radius: 10px;
+            padding: 12px 16px; /* Some padding */
+            font-size: 100px; /* Set a font size */
+            cursor: pointer; 
+        }
+        i:hover,button:hover{
+            background-color: gray;
+        }
+        button{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: whitesmoke; /* Blue background */
+            border: none; /* Remove borders */
+            border-radius: 10px;
+            padding: 12px 16px; /* Some padding */
+            cursor: pointer; 
+        }
+        input{
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 10px;
+            padding: 12px 16px; 
+        }
+        h1{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="position: absolute; top:20%; width:100%; text-align: center;">
+        <h1>Enter music link</h1>
+        <div >
+            <input type="url" name="link" id="link" style="width:500px;">
+            <button type="submit" name="submit" id="button">submit</button> 
+        </div>
+        <div style="padding: 10px;">
+            <i id="play" class="fa fa-play" style="color: pink;" ></i>
+            <i id="stop" class="fa fa-stop" style="color: black;" ></i>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("play").addEventListener("click", Play);
+        document.getElementById("stop").addEventListener("click", Stop);
+        document.getElementById("button").addEventListener("click", sendLink);
+        
+        function Play() {
+            var click = document.getElementById('play').style.backgroundColor;
+            console.log("play");
+            const data = JSON.stringify(false);
+
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.log(this.responseText);
+            }
+            });
+
+            xhr.open("GET", "http://music.oasyslab.local:5000/play");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.send(data);
+            // if(click == "grey"){
+            //     document.getElementById('play').style.backgroundColor = "whitesmoke";
+            // }
+            // else document.getElementById('play').style.backgroundColor = "grey";
+            
+        }
+        
+        function Stop() {
+            var click = document.getElementById('stop').style.backgroundColor;
+            console.log("stop");
+            const data = JSON.stringify(false);
+
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.log(this.responseText);
+            }
+            });
+
+            xhr.open("GET", "http://music.oasyslab.local:5000/pause");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.send(data);
+            // if(click == "grey"){
+                //     document.getElementById('stop').style.backgroundColor = "whitesmoke";
+                // }
+                // else document.getElementById('stop').style.backgroundColor = "grey";
+                
+            }
+            
+            function sendLink(){
+                var link = document.getElementById('link').value;
+                console.log(link);  
+                
+                const data = JSON.stringify({
+                    "link": String(link)
+                });
+
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+
+                xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    console.log(this.responseText);
+                }
+                });
+
+                xhr.open("POST", "http://music.oasyslab.local:5000/queue");
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.send(data);
+        }
+       
+    </script>
+</body>
+</html>
