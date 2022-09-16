@@ -6,6 +6,7 @@
     <title>Document</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         i {
             background-color: whitesmoke; /* Blue background */
@@ -49,7 +50,7 @@
             <i id="stop" class="fa fa-stop" style="color: black;" ></i>
         </div>
     </div>
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         document.getElementById("play").addEventListener("click", Play);
         document.getElementById("stop").addEventListener("click", Stop);
@@ -58,21 +59,8 @@
         function Play() {
             var click = document.getElementById('play').style.backgroundColor;
             console.log("play");
-            const data = JSON.stringify(false);
+	    axios.get('http://music.oasyslab.local:5000/play')
 
-            const xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-
-            xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === this.DONE) {
-                console.log(this.responseText);
-            }
-            });
-
-            xhr.open("GET", "http://music.oasyslab.local:5000/play");
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.send(data);
             // if(click == "grey"){
             //     document.getElementById('play').style.backgroundColor = "whitesmoke";
             // }
@@ -82,22 +70,8 @@
         
         function Stop() {
             var click = document.getElementById('stop').style.backgroundColor;
-            console.log("stop");
-            const data = JSON.stringify(false);
-
-            const xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-
-            xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === this.DONE) {
-                console.log(this.responseText);
-            }
-            });
-
-            xhr.open("GET", "http://music.oasyslab.local:5000/pause");
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.send(data);
+	    
+	    axios.get('http://music.oasyslab.local:5000/pause')
             // if(click == "grey"){
                 //     document.getElementById('stop').style.backgroundColor = "whitesmoke";
                 // }
@@ -105,15 +79,15 @@
                 
             }
             
-            function sendLink(){
+	    function sendLink(){
                 var link = document.getElementById('link').value;
                 console.log(link);  
                 
-                const data = JSON.stringify({
+                const data = {
                     "link": String(link)
-                });
+			    }
 
-                const xhr = new XMLHttpRequest();
+               /* const xhr = new XMLHttpRequest();
                 xhr.withCredentials = true;
 
                 xhr.addEventListener("readystatechange", function () {
@@ -125,7 +99,8 @@
                 xhr.open("POST", "http://music.oasyslab.local:5000/queue");
                 xhr.setRequestHeader("Content-Type", "application/json");
 
-                xhr.send(data);
+                xhr.send(data);*/
+		axios.post("http://music.oasyslab.local:5000/queue", data)
         }
        
     </script>
